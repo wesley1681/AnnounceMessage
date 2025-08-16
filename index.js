@@ -1,7 +1,31 @@
-// 這是一個最簡單的擴充功能腳本。
-// 它的唯一目的，是在瀏覽器的開發者主控台中印出一條訊息，
-// 以此來確認 SillyTavern 已經成功載入了這個檔案。
+import { getContext } from "../../../extensions.js";
+import { eventSource, event_types } from  "../../../../script.js";
+// Register an event listener for incoming messages.
+eventSource.on(event_types.MESSAGE_RECEIVED, handleIncomingMessage);
+// Retrieve application context, including chat logs and participant info.
+const context = getContext();
+function handleIncomingMessage(data) {
+code
+Code
+// Access the most recent message from the chat log.
 
-console.log("--- AnnounceMessage 擴充功能已成功載入！ ---");
-console.log("如果您在瀏覽器的開發者工具中看到此訊息，代表擴充功能的基本檔案結構和載入是正常的。");
-console.log("請按 F12 打開開發者工具，並切換到 '主控台' (Console) 標籤頁查看。");
+let mostRecentMessage = context.chat[context.chat.length - 1];
+
+// Check browser support for speech synthesis.
+
+if ('speechSynthesis' in window) {
+
+// Render the announcement of the character's message to audio.
+
+    let utterance = new SpeechSynthesisUtterance (mostRecentMessage.name + " said something");
+
+    window.speechSynthesis.speak(utterance);
+
+} else {
+
+// Log an error if speech synthesis isn't supported.
+
+    console.error("Speech synthesis is not supported in this browser.");
+
+}
+}
