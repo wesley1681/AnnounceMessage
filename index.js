@@ -1,34 +1,7 @@
-// 保持這些 import 語句不變
-import { getContext } from "../../../extensions.js";
-import { eventSource, event_types } from "../../../../script.js";
+// 這是一個最簡單的擴充功能腳本。
+// 它的唯一目的，是在瀏覽器的開發者主控台中印出一條訊息，
+// 以此來確認 SillyTavern 已經成功載入了這個檔案。
 
-// 定義處理訊息的函式
-function handleIncomingMessage(message) {
-    // 參數 'message' 通常就是新收到的訊息物件，
-    // 它應該會包含 'name' 和 'mes' (訊息內容) 等屬性。
-    // 我們可以直接使用這個物件，而不是去整個 chat 歷史裡找。
-
-    // 首先，檢查收到的訊息是否有效且有名字
-    if (!message || !message.name) {
-        return; // 如果訊息格式不對，就直接忽略
-    }
-
-    // 檢查瀏覽器是否支援語音合成
-    if ('speechSynthesis' in window) {
-        // 建立一個語音合成的實例
-        // 我們可以讓它念出角色的名字和說了什麼
-        const utterance = new SpeechSynthesisUtterance(`${message.name} said something`);
-
-        // 播放語音
-        window.speechSynthesis.speak(utterance);
-    } else {
-        // 如果不支援，在控制台印出錯誤
-        console.error("Speech synthesis is not supported in this browser.");
-    }
-}
-
-// 註冊事件監聽器，當有新訊息進來時，就呼叫 handleIncomingMessage 函式
-eventSource.on(event_types.MESSAGE_RECEIVED, handleIncomingMessage);
-
-// (可選) 您可以在擴展載入時印出一個訊息，方便除錯
-console.log("AnnounceMessage extension loaded successfully.");
+console.log("--- AnnounceMessage 擴充功能已成功載入！ ---");
+console.log("如果您在瀏覽器的開發者工具中看到此訊息，代表擴充功能的基本檔案結構和載入是正常的。");
+console.log("請按 F12 打開開發者工具，並切換到 '主控台' (Console) 標籤頁查看。");
